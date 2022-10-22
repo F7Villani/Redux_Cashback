@@ -1,4 +1,9 @@
-const criarContato = (nome, taxa) => {
+const redux = require('redux');
+
+const { createStore, combineReducers } = redux
+
+// essa função é criadora de acao
+const criarContrato = (nome, taxa) => {
     return {
         type: "CRIAR_CONTRATO",
         payload: {
@@ -8,6 +13,7 @@ const criarContato = (nome, taxa) => {
     }
 }
 
+// essa função é criadora de acao
 const  cancelarContrato = (nome) => {
     return {
         type: "CANCELAR_CONTRATO",
@@ -17,6 +23,7 @@ const  cancelarContrato = (nome) => {
     }
 }
 
+// essa função é criadora de acao
 const solicitarCashback = (nome, valor) => {
     return {
         type: "CASHBACK",
@@ -52,4 +59,23 @@ const contratos = (listaDeContratosAtual = [], acao) => {
     listaDeContratosAtual = listaDeContratosAtual.filter(c => c.nome !== acao.payload.nome);
     return listaDeContratosAtual;
 }
+
+const todosOsReducers = combineReducers({
+    historicoDePedidosDeCahsback,
+    caixa,
+    contratos
+});
+
+const store = createStore(todosOsReducers);
+
+store.dispatch(criarContrato("Jose", 100));
+console.log(store.getState())
+store.dispatch(criarContrato("Maria", 800));
+console.log(store.getState())
+
+store.dispatch(solicitarCashback("Jose", 20));
+console.log(store.getState())
+store.dispatch(solicitarCashback("Maria", 10));
+console.log(store.getState())
+
 
